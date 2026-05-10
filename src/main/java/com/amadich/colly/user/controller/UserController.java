@@ -32,6 +32,7 @@ public class UserController {
                 .email(user.getEmail())
                 .age(user.getAge())
                 .role(user.getRole())
+                .gender(user.getGender())
                 .avatar(user.getAvatar())
                 .build();
     }

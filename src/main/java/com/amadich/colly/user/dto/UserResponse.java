@@ -1,5 +1,6 @@
 package com.amadich.colly.user.dto;
 
+import com.amadich.colly.user.enums.Gender;
 import com.amadich.colly.user.enums.Role;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class UserResponse {
     private Integer age;
 
     private Role role;
+
+    private Gender gender;
 
     private String avatar;
 }

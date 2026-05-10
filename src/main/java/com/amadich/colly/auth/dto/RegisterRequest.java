@@ -1,5 +1,6 @@
 package com.amadich.colly.auth.dto;
 
+import com.amadich.colly.user.enums.Gender;
 import com.amadich.colly.user.enums.Role;
 import lombok.Data;
 
@@ -19,6 +20,8 @@ public class RegisterRequest {
     private Integer age;
 
     private Role role;
+
+    private Gender gender;
 
     private String avatar;
 }

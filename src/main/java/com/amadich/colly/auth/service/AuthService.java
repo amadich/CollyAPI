@@ -38,6 +38,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .age(request.getAge())
                 .role(request.getRole())
+                .gender(request.getGender())
                 .avatar(request.getAvatar())
                 .build();
 

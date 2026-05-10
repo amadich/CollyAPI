@@ -1,5 +1,6 @@
 package com.amadich.colly.user.entity;
 
+import com.amadich.colly.user.enums.Gender;
 import com.amadich.colly.user.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
 
     private String avatar;
 }

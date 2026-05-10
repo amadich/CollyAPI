@@ -15,5 +15,7 @@ CREATE TABLE users (
 
                        role VARCHAR(50) NOT NULL,
 
+                       gender VARCHAR(20) NOT NULL,
+
                        avatar TEXT
 );
