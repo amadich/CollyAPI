@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -19,6 +20,10 @@ public class RoomResponse {
     private Boolean isPrivate;
 
     private Integer maxMembers;
+
+    private Integer onlineCount;
+
+    private List<RoomUserResponse> users;
 
     private LocalDateTime createdAt;
 }

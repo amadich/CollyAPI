@@ -46,4 +46,12 @@ public class RoomPresenceService {
                 )
                 .toList();
     }
+
+    public Set<User> getRoomUsers(UUID roomId) {
+
+        return roomUsers.getOrDefault(
+                roomId,
+                Collections.emptySet()
+        );
+    }
 }

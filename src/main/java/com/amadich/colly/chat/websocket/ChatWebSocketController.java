@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -96,6 +97,35 @@ public class ChatWebSocketController {
         messagingTemplate.convertAndSend(
                 "/topic/room/" + request.getRoomId() + "/users",
                 roomPresenceService.getUsers(request.getRoomId())
+        );
+    }
+
+    @MessageMapping("/chat.history")
+    public void loadHistory(
+            JoinRoomRequest request
+    ) {
+
+        List<ChatMessageResponse> messages =
+                messageRepository
+                        .findByRoomIdOrderByCreatedAtAsc(request.getRoomId())
+                        .stream()
+                        .map(message -> ChatMessageResponse.builder()
+                                .id(message.getId().toString())
+                                .username(message.getSender().getUsername())
+                                .firstName(message.getSender().getFirstName())
+                                .lastName(message.getSender().getLastName())
+                                .avatar(message.getSender().getAvatar())
+                                .content(message.getContent())
+                                .messageType(message.getMessageType().name())
+                                .mediaUrl(message.getMediaUrl())
+                                .createdAt(message.getCreatedAt().toString())
+                                .build()
+                        )
+                        .toList();
+
+        messagingTemplate.convertAndSend(
+                "/topic/room/" + request.getRoomId() + "/history",
+                messages
         );
     }
 }

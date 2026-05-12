@@ -1,13 +1,13 @@
 package com.amadich.colly.user.controller;
 
+import com.amadich.colly.user.dto.UpdateAvatarRequest;
 import com.amadich.colly.user.dto.UserResponse;
 import com.amadich.colly.user.entity.User;
 import com.amadich.colly.user.repository.UserRepository;
+import com.amadich.colly.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("/me")
     public UserResponse me(Authentication authentication) {
@@ -35,5 +36,14 @@ public class UserController {
                 .gender(user.getGender())
                 .avatar(user.getAvatar())
                 .build();
+    }
+
+    @PutMapping("/avatar")
+    public UserResponse updateAvatar(Authentication authentication, @RequestBody UpdateAvatarRequest request) {
+
+        return userService.updateAvatar(
+                authentication,
+                request.getAvatar()
+        );
     }
 }
