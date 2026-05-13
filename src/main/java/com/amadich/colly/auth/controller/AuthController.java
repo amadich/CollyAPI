@@ -4,12 +4,10 @@ import com.amadich.colly.auth.dto.AuthResponse;
 import com.amadich.colly.auth.dto.LoginRequest;
 import com.amadich.colly.auth.dto.RegisterRequest;
 import com.amadich.colly.auth.service.AuthService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -39,36 +37,29 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public Map<String, String> logout(HttpServletResponse response) {
+    public void logout(HttpServletResponse response) {
 
-        Cookie cookie = new Cookie("jwt", "");
+        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .maxAge(0)
+                .build();
 
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-
-        response.addCookie(cookie);
-
-        return Map.of(
-                "message",
-                "Logged out successfully"
-        );
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     private void addJwtCookie(HttpServletResponse response, String token) {
 
-        Cookie cookie = new Cookie("jwt", token);
+        ResponseCookie cookie = ResponseCookie.from("jwt", token)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .maxAge(60 * 60)
+                .build();
 
-        cookie.setHttpOnly(true);
-
-        cookie.setSecure(false);
-        // TRUE in production HTTPS
-
-        cookie.setPath("/");
-
-        cookie.setMaxAge(60 * 60);
-
-        response.addCookie(cookie);
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 }
