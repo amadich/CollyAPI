@@ -19,3 +19,6 @@ minio:
   url: ${APP_MINIO_URL}
   access-key: ${APP_MINIO_ACCESS_KEY}
   secret-key: ${APP_MINIO_SECRET_KEY}
+
+app:
+  frontend-url: ${FRONTEND_URL}

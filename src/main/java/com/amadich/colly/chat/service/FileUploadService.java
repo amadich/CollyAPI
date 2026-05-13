@@ -15,8 +15,6 @@ public class FileUploadService {
 
     private final MinioClient minioClient;
 
-
-
     @Value("${minio.url}")
     private String minioUrl;
 

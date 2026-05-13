@@ -1,6 +1,7 @@
 package com.amadich.colly.user.controller;
 
 import com.amadich.colly.user.dto.UpdateAvatarRequest;
+import com.amadich.colly.user.dto.UpdateProfileRequest;
 import com.amadich.colly.user.dto.UserResponse;
 import com.amadich.colly.user.entity.User;
 import com.amadich.colly.user.repository.UserRepository;
@@ -45,5 +46,14 @@ public class UserController {
                 authentication,
                 request.getAvatar()
         );
+    }
+
+    @PutMapping("/profile")
+    public UserResponse updateProfile(
+            Authentication authentication,
+            @RequestBody UpdateProfileRequest request
+    ) {
+
+        return userService.updateProfile(authentication, request);
     }
 }
