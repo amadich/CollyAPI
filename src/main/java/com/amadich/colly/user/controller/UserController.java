@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -56,4 +58,29 @@ public class UserController {
 
         return userService.updateProfile(authentication, request);
     }
+
+
+
+        @GetMapping("/search")
+        public List<UserResponse> searchUsers(
+                @RequestParam String q
+        ) {
+
+            List<User> users =
+                    userRepository
+                            .findByUsernameContainingIgnoreCase(q);
+
+            return users.stream()
+                    .map(user ->
+                            UserResponse.builder()
+                                    .id(user.getId())
+                                    .firstName(user.getFirstName())
+                                    .lastName(user.getLastName())
+                                    .username(user.getUsername())
+                                    .email(user.getEmail())
+                                    .avatar(user.getAvatar())
+                                    .build()
+                    )
+                    .toList();
+        }
 }

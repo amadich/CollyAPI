@@ -28,11 +28,14 @@ CREATE TABLE rooms (
 -- ROOM MEMBERS
 -- =========================
 CREATE TABLE room_members (
+
                               id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
                               room_id UUID NOT NULL,
 
                               user_id UUID NOT NULL,
+
+                              role VARCHAR(50) NOT NULL,
 
                               joined_at TIMESTAMP NOT NULL DEFAULT NOW(),
 

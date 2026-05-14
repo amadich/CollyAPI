@@ -3,6 +3,9 @@ package com.amadich.colly.chat.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.UUID;
+
 @Getter
 @Setter
 public class RoomRequest {
@@ -14,4 +17,6 @@ public class RoomRequest {
     private Boolean isPrivate;
 
     private Integer maxMembers;
+
+    private List<UUID> memberIds;
 }

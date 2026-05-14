@@ -7,6 +7,7 @@ import com.amadich.colly.chat.entity.Message;
 import com.amadich.colly.chat.entity.Room;
 import com.amadich.colly.chat.enums.MessageType;
 import com.amadich.colly.chat.repository.MessageRepository;
+import com.amadich.colly.chat.repository.RoomMemberRepository;
 import com.amadich.colly.chat.repository.RoomRepository;
 import com.amadich.colly.chat.service.RoomPresenceService;
 import com.amadich.colly.user.entity.User;
@@ -32,6 +33,7 @@ public class ChatWebSocketController {
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final RoomPresenceService roomPresenceService;
+    private final RoomMemberRepository roomMemberRepository;
 
     @MessageMapping("/chat.send")
     public void sendMessage(ChatMessageRequest request, Authentication authentication) {
@@ -43,6 +45,17 @@ public class ChatWebSocketController {
 
         Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow();
+
+        boolean allowed = !room.isPrivate()
+                        ||
+                        roomMemberRepository.existsByRoomIdAndUserId(
+                                room.getId(),
+                                sender.getId()
+                        );
+
+        if (!allowed) {
+            throw new RuntimeException("Forbidden");
+        }
 
         Message message = Message.builder()
                 .room(room)
@@ -87,6 +100,22 @@ public class ChatWebSocketController {
                 .findByEmail(authentication.getName())
                 .orElseThrow();
 
+
+        Room room = roomRepository
+                .findById(request.getRoomId())
+                .orElseThrow();
+
+        boolean allowed =
+                !room.isPrivate()
+                        ||
+                        roomMemberRepository.existsByRoomIdAndUserId(
+                                room.getId(),
+                                user.getId()
+                        );
+
+        if (!allowed) {
+            throw new RuntimeException("Forbidden");
+        }
         roomPresenceService.joinRoom(request.getRoomId(), user);
 
         // SAVE DATA INSIDE WS SESSION

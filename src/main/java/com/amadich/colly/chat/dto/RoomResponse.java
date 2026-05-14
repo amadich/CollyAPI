@@ -23,6 +23,8 @@ public class RoomResponse {
 
     private Integer onlineCount;
 
+    private Boolean isOwner;
+
     private List<RoomUserResponse> users;
 
     private LocalDateTime createdAt;

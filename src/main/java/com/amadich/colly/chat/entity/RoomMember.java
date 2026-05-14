@@ -1,5 +1,6 @@
 package com.amadich.colly.chat.entity;
 
+import com.amadich.colly.chat.enums.RoomRole;
 import com.amadich.colly.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,9 @@ public class RoomMember {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private RoomRole role;
 
     @Column(name = "joined_at")
     private LocalDateTime joinedAt;
