@@ -38,6 +38,7 @@ public class RoomPresenceService {
                 .stream()
                 .map(user ->
                         OnlineUserResponse.builder()
+                                .id(user.getId().toString())
                                 .username(user.getUsername())
                                 .firstName(user.getFirstName())
                                 .lastName(user.getLastName())

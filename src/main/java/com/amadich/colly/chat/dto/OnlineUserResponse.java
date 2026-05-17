@@ -7,6 +7,8 @@ import lombok.Data;
 @Builder
 public class OnlineUserResponse {
 
+    private String id;
+
     private String username;
 
     private String firstName;
